@@ -1,0 +1,77 @@
+
+Use the dijkstra algorithm and you have to made one more array to maintains the 
+number of ways and then return the maximum ways out of that array.
+
+class Pair{
+
+    int node;
+    int wt;
+
+    Pair(int wt,int node){
+        this.node=node;
+        this.wt=wt;
+    }
+}
+
+public int countPaths(int n, int[][] roads) {
+
+    List<List<Pair>> list=new ArrayList<>();
+
+    for(int i=0;i<n;i++){
+          list.add(new ArrayList<>());
+    }
+
+    for(int[] temp:roads){
+        int u=temp[0];
+        int v=temp[1];
+        int time=temp[2];
+
+        list.get(u).add(new Pair(time,v));
+        list.get(v).add(new Pair(time,u));
+    }
+
+    PriorityQueue<Pair> pq=new PriorityQueue<>((a,b)->a.wt-b.wt);
+
+    int[] dist=new int[n];
+    int[] ways=new int[n];
+
+    for(int i=0;i<n;i++){
+        dist[i]=(int)(1e9);
+        ways[i]=0;
+    }
+
+    pq.offer(0,0);
+    dist[0]=0;
+    ways[0]=1;
+
+    int mod = (int)(1e9 + 7);
+
+    while(!pq.isEmpty()){
+
+        int node=pq.peek().node;
+        int wt=pq.peek().wt;
+
+        pq.poll();
+
+        for(Pair it:list.get(node)){
+
+            int nNode=it.node;
+            int nWt=it.wt;
+
+            if(wt+nWt<dist[nNode]){
+                dist[nNode]=wt+nWt;
+                pq.offer(new Pair(dist[nNode],nNode));
+                ways[nNode]=ways[node];
+            }
+            else if(wt+nWt==dist[nNode]){
+                ways[nNode]=(ways[nNode]+ways[node])%mod;
+            }
+
+
+        }
+
+    }
+
+    return ways[n-1]%mod;
+        
+}

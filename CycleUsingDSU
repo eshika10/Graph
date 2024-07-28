@@ -1,0 +1,51 @@
+    private int findParent(int u,int[] parent){
+        if(parent[u]==u){
+            return u;
+        }
+        
+        return parent[u]=findParent(parent[u],parent);
+    }
+    
+    public int solve(int v, ArrayList<ArrayList<Integer>> B) {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        
+        for(int i = 0; i<=v; i++){
+            adj.add(new ArrayList<>());
+        }
+        
+        for(ArrayList<Integer> al: B){
+            adj.get(al.get(0)).add(al.get(1));
+            adj.get(al.get(1)).add(al.get(0));
+        }
+        
+        //DSU
+        int[] parent=new int[v+1];
+        
+        for(int i=1;i<=v;i++){
+            parent[i]=i;
+        }
+        
+        for(int i=0;i<B.size();i++){
+            
+            int x=B.get(i).get(0);
+            int y=B.get(i).get(1);
+            
+            int px=findParent(x,parent);
+            int py=findParent(y,parent); 
+            
+            //If both have same parent that means they are belonging to same set
+            //That means they are forming a cycle.
+
+            if(px==py){
+                return 1;
+            }else{
+                parent[px]=py;//Otherwise merge them if they are not from same set
+            }
+            
+        }
+        
+       
+        return 0;
+    }
+    
+    

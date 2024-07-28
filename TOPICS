@@ -1,0 +1,33 @@
+//Graph Important topics
+
+1.BFS-Used when the you have to find the minimum (cost,transformations,etc)
+      as it travels in level wise manner.
+      MultiSource bfs is very asked.
+
+
+2.DFS-When you have to travel in depth first manner.
+
+3.Dijkstra Algo-Same as bfs but PriorityQueue is used.It used to find 
+                shortest path.(IMP)
+
+4.TopoLogical Sort-Used in question where we need to chk whether we can able
+                   to perform certain task before other.(Finishing task question of interviewbit)
+                   ->Also used in cycle detection of graph as if we wre not able to perform
+                     topo sort on graph that means there is a cycle present as topo sort can only
+                     be performed on DAG.
+
+5.MST-To find the minimum possible cost of connected all nodes together. 
+     -Can be easily perform using DSU and the algo is called Kruskal Algo.
+      (Refer MST_Easy)
+
+6.Bipartite Graph-Can we able to split the graph into two groups.(two teams question of interviewbit)
+                  Also known as graph coloring problem.
+                  -If we able to color the graph with two diff color such that
+                   no two neighbours have same color.
+
+7.Cycle detection- FOR UNDIRECTED GRAPH-1.BY DFS
+                                        2.by BFS
+                                        3.By DSU
+
+                    FOR DIRECTED GRAPH-1.By Topo sort
+                                       2.By DFS and BFS(Path visited concept)

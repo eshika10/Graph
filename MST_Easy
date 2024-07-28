@@ -1,0 +1,42 @@
+class Solution {
+    
+    private int find(int[] parent, int x) {
+        if (parent[x] == x)
+            return x;
+        return parent[x] = find(parent, parent[x]);
+    }
+    
+    
+    public int solve(int A, ArrayList<ArrayList<Integer>> B) {
+        
+        int[] parent = new int[A + 1];
+        for (int i = 1; i <= A; i++)
+            parent[i] = i;
+        
+        PriorityQueue<int[]> edges = new PriorityQueue<>((a,b)->a[2]-b[2]);
+        
+        for (ArrayList<Integer> bridge : B) {
+            int u = bridge.get(0);
+            int v = bridge.get(1);
+            int cost = bridge.get(2);
+            edges.offer(new int[]{u,v,cost});
+        }
+        
+        
+        int totalCost = 0;
+        while (!edges.isEmpty()) {
+            
+            int[] edge=edges.poll();
+            int u = edge[0];
+            int v = edge[1];
+            int cost = edge[2];
+            
+            if (find(parent, u) != find(parent, v)) {
+                parent[find(parent,u)]=find(parent,v);
+                totalCost += cost;
+            }
+        }
+        
+        return totalCost;
+    }
+}

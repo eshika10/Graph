@@ -1,0 +1,74 @@
+import java.util.*;
+
+//Cycle detection in directed graph
+//We have to use pathvisited array
+//This is the DFS Approach
+//We can also use topo sort for directed graph
+
+public class Cycle {
+
+    public static void main(String[] args) {
+
+        int n=3;
+
+        ArrayList<ArrayList<Integer>> list=new ArrayList<>();
+
+        list.add(new ArrayList<>());
+        list.add(new ArrayList<>());
+        list.add(new ArrayList<>());
+
+        list.get(0).add(1);
+        list.get(1).add(2);
+        list.get(2).add(0);
+
+        boolean[] visited=new boolean[3];
+        boolean[] pathVis=new boolean[3];
+       
+
+        Arrays.fill(visited,false);
+        Arrays.fill(pathVis,false);
+
+        for(int i=0;i<3;i++){
+            if(visited[i]==false){
+              if(dfs(i,list,visited,pathVis)==true){
+                System.out.println(true);
+                return;
+              }
+            }
+        }
+
+        System.out.println(false);
+        return;
+        
+    }
+
+    private static boolean dfs(int i,ArrayList<ArrayList<Integer>> list,boolean[] visited,boolean[] pathVis){
+
+        visited[i]=true;
+        pathVis[i]=true;
+
+        for(int it:list.get(i)){
+
+            if(visited[it]==false){
+
+                if(dfs(it,list,visited,pathVis)==true){
+
+                    return true;
+
+                }
+
+            }
+            else if(pathVis[it]==true){
+
+                return true;
+
+            }
+
+        }
+
+        pathVis[i]=false;
+        return false;
+
+    }
+    
+}

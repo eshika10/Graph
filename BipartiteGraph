@@ -1,0 +1,55 @@
+1.A graph that can be coloured with two colors such that no two adjacent nodes
+have the same color.
+
+2.Have even number of edges in the cycle so formed then the graph is bipartite.
+
+3.A graph is bipartite if the nodes can be partitioned into two independent 
+sets A and B such that every edge in the graph connects a node in set A and 
+a node in set B.
+
+4.All the graphs except the graphs that contains an odd length cycle are 
+bipartite. 
+
+example-   0-------1    0-----1------2------3 (Linear bipartite graph)
+           |       |
+           |       |
+           |       | 
+           3-------2
+
+
+Implementation using DFS- O(V+E) 
+All similar to standard dfs ,except in the place of visited
+array we will use colored array to avoid the revisiting.
+
+And add one more condition that if it is already colored then is that color is
+same as the parent or different .
+
+public boolean dfs(int node,List<List<Integer>> list,int col,int[] colored){
+
+    colored[node]=col;
+
+    for(int val:list.get(node)){
+        if(colored[val]== -1){
+            return if(dfs(val,list,1-col,colored)==false) return false;
+        }else{
+            if(colored[val]==colored[node]){
+                return false;
+            }
+        }
+    }
+
+    return true;
+
+}
+
+public boolean main(List<List<Integer>> list,int n){
+
+    int colored[]=new int[n];
+
+    for(int i=0;i<n;i++){
+        colored[i]=-1;
+    }
+
+    return dfs(0,list,1,colored);
+
+}

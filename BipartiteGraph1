@@ -1,0 +1,37 @@
+Implementation using BFS- O(V+E)
+
+public boolean main(int n,List<List<Integer>> list){
+
+    int[] colored=new int[n];
+
+    //Initialize the colored array with -1
+    for(int val:colored){
+        colored[val]=-1;
+    }
+
+    Queue<Integer> q=new LinkedList<>();
+
+    colored[0]=1;
+    q.offer(0);
+
+    while(!q.isEmpty()){
+
+        int node=q.poll();
+
+        for(int val:list.get(node)){
+
+            if(colored[val]==-1){
+                colored[val]= 1-colored[node];
+                q.offer(val);
+            }else{
+                if(colored[val]==colored[node]){
+                    return false;
+                }
+            }
+
+
+        }
+    }
+
+    return true;
+}

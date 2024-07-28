@@ -1,0 +1,56 @@
+Floyd Warshall Algo-
+It is used to find the shortest path between all possible
+pairs in the graph and not between the source and destination only.
+
+-It prefers adjacency matrix over adjacency list.(cost or dist of daigonals elements are 0)
+-Time Complexity is O(V^3)
+-Run this algo one more time if a negative cycle check is required. 
+If the shortest distance of a vertex is reduced, then the graph has a negative cycle.
+
+-It states that go via every vertex or node.
+
+CODE-
+
+ public void shortest_distance(int[][] matrix)
+    {
+        // Code here 
+        
+        int n=matrix.length;
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(matrix[i][j]==-1){
+                    matrix[i][j]=(int)1e9;
+                }
+                if(i==j){
+                    matrix[i][j]=0;
+                }
+            }
+        }
+        
+        
+        for(int k=0;k<n;k++){
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    matrix[i][j]=Math.min(matrix[i][j],matrix[i][k]+matrix[k][j]);
+                }
+            }
+        }
+
+        //CHECK FOR NEGATIVE CYCLE
+        for(int i=0;i<n;i++){
+            if(matrix[i][i]<0){
+
+            }
+        }
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(matrix[i][j]==(int)1e9){
+                    matrix[i][j]=-1;
+                }
+               
+            }
+        }
+        
+    }

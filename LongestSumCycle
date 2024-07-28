@@ -1,0 +1,65 @@
+Longest Sum Cycle code
+
+long largestCycle=-1;
+
+
+private static void dfs(int i,int[] edge,boolean[] visited,boolean[] pathVis){
+
+
+    visited[i]=true;
+    pathVis[i]=true;
+
+    if(edge[i]!=-1){
+
+          int neigh=edge[i];
+       
+          if(visited[neigh]==false){
+
+             dfs(neigh,edge,visited,pathVis);
+              
+          }
+           else if(pathVis[neigh]==true){
+
+               int cur=neigh;
+               long sum=0;
+               do{
+                    sum+=cur;
+                    cur=edge[cur];
+               }while(cur!=neigh);
+               largestCycle=Math.max(largestCycle,sum);
+
+          }
+
+
+
+    }
+
+    pathVis[it]=false;
+    
+
+}
+
+public static void main(String[] args){
+
+   int[] edge=new int[];
+
+   int n= edge.length();
+
+  boolean[] visited=new boolean[n];
+
+  boolean[] pathVis=new boolean[n];
+
+
+  for(int i=0;i<n;i++){
+
+    if(!visited[i]){
+
+       dfs(i,edge,visited,pathVis);
+                   
+    }
+
+  }
+
+  return largestCycle;
+
+}

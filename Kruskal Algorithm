@@ -1,0 +1,112 @@
+Kruskal Algorithm-
+
+->Used for finding the MST.
+->Time Complexity is O(ElogE)
+
+Algo-
+1.Sort all the edges of the graph according to their weights.
+2.Every time we encounter a new pair of nodes we will see whether those two nodes
+have the same ultimate parent or not if same then discard it or different then
+it will become the part of our mst and the weight of the edge will be added to
+final answer.
+
+Code-
+
+class Solution{
+    
+    static class DisjointSet{
+        
+        List<Integer>parent = new ArrayList<>();
+        List<Integer>rank = new ArrayList<>();
+        
+        public DisjointSet(int n) {
+            for (int i = 0; i <= n; i++) {
+                rank.add(0);
+                parent.add(i);
+                
+            }
+        }
+        
+        public int findParent(int v){
+            if(v==parent.get(v))return v;
+            
+            int node= findParent(parent.get(v));
+            parent.set(v,node);
+            return parent.get(v);
+        }
+        
+        
+        public  void findRank(int u,int v){
+            
+            int  ulp_v = findParent(v);
+            int  ulp_u = findParent(u);
+            
+            if(ulp_v==ulp_u)return;
+            
+            if(rank.get(ulp_v)<rank.get(ulp_u)){
+                parent.set(ulp_v,ulp_u);
+            }
+            
+            else if(rank.get(ulp_v)>rank.get(ulp_u)){
+                parent.set(ulp_u,ulp_v);
+            }
+            
+            else{
+               parent.set(ulp_u,ulp_v);
+               int rankU= rank.get(ulp_u);
+               rank.set(ulp_u,rankU+1);
+            }
+ 
+        }
+    }
+    
+     static class Edge implements Comparable<Edge>{
+        int wt;
+        int src;
+        int dest;
+        Edge(int src ,int dest,int wt){
+            this.src = src;
+            this.dest= dest;
+            this.wt = wt;
+        }
+        public int compareTo(Edge p2 ){
+            return this.wt-p2.wt;
+        }
+    }
+    
+    
+	static int spanningTree(int V, int E, int edges[][]){
+	    // Code Here. 
+	    
+	   List<Edge> edgeList = new ArrayList<Edge>();
+ 
+       //O(V+E)
+        for (int i = 0; i < E; i++) {
+            int src = edges[i][0];
+            int dest = edges[i][1];
+            int weight = edges[i][2];
+            Edge temp = new Edge(src, dest, weight);
+            edgeList.add(temp);
+        }
+        
+        DisjointSet ds = new DisjointSet(V);
+        //O(ElogE)
+        Collections.sort(edgeList);
+        int sum = 0;
+        
+        //E X 4 X alpha X 2
+        for(int i=0;i<edgeList.size();i++){
+            int u  = edgeList.get(i).src;
+            int v = edgeList.get(i).dest;
+            int wt = edgeList.get(i).wt;
+            
+            if(ds.findParent(u)!= ds.findParent(v)){
+                sum+=wt;
+                ds.findRank(u,v);
+            }
+        }
+        return sum;
+	    
+	    
+	}
+}

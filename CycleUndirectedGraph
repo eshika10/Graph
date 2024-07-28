@@ -1,0 +1,75 @@
+
+//This is much simpler
+//This is for cycle detection in undirected graph
+//If the neighbour of any node is already visited and that neighbour
+//is not the parent then it means there exists a cycle due to which this is happen.
+
+
+public class Solution {
+    public int solve(int v, ArrayList<ArrayList<Integer>> B) {
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        
+        for(int i = 0; i<=v; i++){
+            adj.add(new ArrayList<>());
+        }
+        
+        for(ArrayList<Integer> al: B){
+            adj.get(al.get(0)).add(al.get(1));
+            adj.get(al.get(1)).add(al.get(0));
+        }
+        
+        boolean[] vis = new boolean[v+1];
+        for(int i = 1; i<=v; i++){
+            if(vis[i]==false){
+               // if(bfs(adj, i, vis)==1) return 1;
+               if(dfs(i,-1,adj,vis)==true){
+                   return 1;
+               }
+            }
+        }
+        return 0;
+    }
+    
+    boolean dfs(int node,int parent,ArrayList<ArrayList<Integer>> adj,boolean[] vis){
+        
+        vis[node]=true;
+        
+        for(int val:adj.get(node)){
+            
+            if(vis[val]==false){
+                if(dfs(val,node,adj,vis)) return true;
+            }else{
+                if(val!=parent) return true;
+            }
+            
+        }
+        
+        return false;
+        
+    }
+    
+    int bfs(ArrayList<ArrayList<Integer>> adj, int src, boolean[] vis){
+        
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{src, -1});
+        vis[src] = true;
+        
+        while(q.size()>0){
+
+            int[] temp = q.poll();
+            int node=temp[0];
+            int parent=temp[1];
+
+            for(int u: adj.get(node)){
+                if(vis[u]==false){
+                    q.offer(new int[]{u, node});
+                    vis[u] = true;
+                }else if(u!=parent) return 1;
+            }
+        }
+        return 0;
+    }
+}
+
+
+

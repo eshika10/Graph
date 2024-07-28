@@ -1,0 +1,49 @@
+Disjoint Set (DS)-
+
+Time Complexity-Union-4alpha=constant
+                findParent()-4alpha=constant
+
+//APPLICATIONS:
+->Used in graph that are dynamic which means which are changing their configuration with time.
+
+->You can tell whether two nodes are belonging to same component of graph or not in constant time complexity.(finding connected component)
+
+->Help in detecting the cycle in undirected graph which do not contain any self loop.-Whenever we visit two nodes that are the part of the same set  then there exists a cycle. **(REFER CycleUsingDSU)**
+
+->find minimum spanning tree(Kruskal Algo)-This means the minimum cost to connect all the nodes in the tree.**(REFER MST_Easy)**
+
+
+//IMPLEMENTATION:
+->DS can be implemented using findParent() function and union.
+->Union is implemented by-1.Rank
+                           2.Size
+
+Union By Rank-
+->Union(u,v)-
+    1.Find the ulimate parent of u and v- pu,pv.
+    2.Find the rank of pu and pv.
+    3.Connect the smaller rank to the larger rank always.
+    4.Increase the rank of the node which become the parent.
+    5.Update the parent of the node which have smaller rank.
+
+->The ultimate parent is the one who is the topmost parent in the structure so formed.
+->To find the parent we will use findParent()  function.
+->By checking the ultimate parent we can tell whether that nodes are belonging
+to the same or different component.
+->In union by rank the rank array is initialized with 0 and the parent array 
+of every node is inialized with the node itself.
+->Once we find the ultimate parent of a node we will update the index corresponding to that node in the parent array so next time we will able to find
+its parent in constant time,this process is called "Path Compression".
+->We are storing ranks instead of heights as the rank will never  shrink but height does. 
+
+Code for findParent()-
+
+findParent(u){
+
+    if(u==parent[u]){
+        return u;
+    }
+
+    return parent[u]=findParent(parent[u]);
+
+}

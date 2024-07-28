@@ -1,0 +1,39 @@
+class Edge{
+    int dest;
+    int wt;
+
+    public Edge(int dest,int wt){
+
+        this.dest=dest;
+        this.wt=wt;
+
+    }
+}
+
+public void addVertex(int v){
+
+    hm.put(v,new LinkedList<>());
+
+}
+
+
+for(int[] temp: int[][] emp){
+
+    int u=temp[0];
+    int v=temp[1];
+    int wt=temp[2];
+
+    if(!hm.containsKey(u)){
+        addVertex(u);
+    }
+
+    hm.get(u).add(new Edge(v,wt));
+
+}
+
+
+HashMap<Integer,List<Edge>> hm=new HashMap<>();
+
+
+
+

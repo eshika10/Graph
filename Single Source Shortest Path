@@ -1,0 +1,113 @@
+->Given a source we have to find the shortest path from that single source to 
+all other nodes present in the DAG.
+
+->Using first of all the Topo Sort.
+->O(N+M) which is better than other standard algos.
+->Used for Dag only .
+->We choose topo sort because we have processed all the nodes which are preceeding
+the given vertex that means we have the shortest distance upto all the nodes
+which are present before it which will help us to compute the shortest distance
+for that vertex also.
+
+Algo-
+1.Do the topo sort on the graph.
+2.Take the nodes out of the stack and relax the edges.
+  Here we maintain a distance array initialize with infinity in which we
+  start with the poped values of the stack and calculate the distances of its
+  neighbouring nodes by adding the distance of that neighbouring nodes upto that 
+  particular node and the distance present at that node.
+
+  class Pair{
+    
+    int v;
+    int wt;
+    
+    Pair(int v,int wt){
+        this.v=v;
+        this.wt=wt;
+    }
+}
+
+
+private void dfs(int node,ArrayList<ArrayList<Pair>> adj,boolean[] visited,Stack<Integer> s){
+        
+  visited[node]=true;
+  
+  for(int i=0;i<adj.get(node).size();i++){
+      
+      int v=adj.get(node).get(i).v;
+      
+      if(visited[v]==false){
+          dfs(v,adj,visited,s);
+      }
+      
+  }
+  
+  s.push(node);
+ 
+}
+
+public int[] shortestPath(int N,int M, int[][] edges) {
+  //Code here
+  
+  ArrayList<ArrayList<Pair>> adj=new ArrayList<>();
+  
+  for(int i=0;i<N;i++){
+      ArrayList<Pair> temp=new ArrayList<>();
+      adj.add(temp);
+  }
+  
+  for(int i=0;i<M;i++){
+      
+      int v=edges[i][0];
+      int u=edges[i][1];
+      int wt=edges[i][2];
+      
+      adj.get(v).add(new Pair(u,wt));
+      
+  }
+  
+  boolean[] visited=new boolean[N];
+  Stack<Integer> s=new Stack<>();
+  
+  for(int i=0;i<N;i++){
+      if(visited[i]==false){
+          dfs(i,adj,visited,s);
+      }
+  }
+  
+  int[] dist=new int[N];
+  for(int i=0;i<N;i++){
+      dist[i]=(int)(1e9);
+  }
+  
+  dist[0]=0;
+  
+  while(!s.isEmpty()){
+      
+      int node=s.pop();
+      
+      for(int i=0;i<adj.get(node).size();i++){
+          
+          int v=adj.get(node).get(i).v;
+          int wt=adj.get(node).get(i).wt;
+          
+          dist[v]=Math.min(dist[v],dist[node]+wt);
+          
+      }
+      
+      
+  }
+  
+  for(int i=0;i<dist.length;i++){
+      
+      if(dist[i]==1e9){
+          dist[i]=-1;
+      }
+      
+  }
+  
+  return dist;
+  
+  
+}

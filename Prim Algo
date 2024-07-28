@@ -1,0 +1,73 @@
+Prim Algorithm-
+
+1.Start with any vertex. Use Priority Queue to process the smallest edge.
+2.Use visited array or distance array.
+3.Difference between Prims and Dijkstra is “Don’t add current vertex distance to calculate neighbour distance”.
+4.Example : u, v
+5.Dijkstra - dis[v] = dis[u] + graph[u][v];
+6.Prims - dis[v] = graph[u][v]
+7.Time Complexity is O(ElogE)
+
+Code-
+
+class Pair{
+
+    int vertex;
+    int wt;
+
+    Pair(int wt,int vertex){
+         this.vertex=vertex;
+         this.wt=wt;
+    }
+}
+
+public int main(int V,int E,int[][] edges){
+
+    ArrayList<ArrayList<Pair>> adj=new ArrayList<>();
+
+    for(int i=0;i<V;i++){
+        adj.add(new ArrayList<>());
+    }
+
+    for(int i=0;i<E;i++){
+        int u=edges[i][0];
+        int v=edges[i][1];
+        int wt=edges[i][2];
+
+        adj.get(u).add(new Pair(wt,v));
+        adj.get(v).add(new Pair(wt,u));
+    }
+
+    PriorityQueue<Pair> p=new PriorityQueue<Pair>((x,y)->x.wt-y.wt);
+    boolean[] visited=new boolean[V];
+    int sum=0;
+    p.offer(new Pair(0,0));
+
+    while(!p.isEmpty()){
+
+        int vertex=p.peek().vertex;
+        int wt=p.peek().wt;
+
+        p.remove();
+
+        if(visited[vertex]) continue;
+
+        visited[vertex]=true;
+        sum+=wt;
+
+        for(Pair it:adj.get(vertex)){
+
+            int node=it.vertex;
+            int weight=it.wt;
+
+            if(visited[node]==false){
+                p.offer(new Pair(weight,node));
+            }
+
+        }
+
+    }
+
+    return sum;
+
+}

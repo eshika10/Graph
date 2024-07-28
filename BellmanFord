@@ -1,0 +1,62 @@
+BellmanFord Algo-
+
+-Used with negative weights also.
+-Able to find whether graph has negative cycle
+-Not preferred over Dijkstra as time complexity of bellman ford is O(VE)
+-Used for directed graph(DG) if you are given a unidirected graph then first
+convert it into directed graph.
+-We do n-1 relaxations as these will help us to find the values of all nodes as
+one value of node will lead to the values of all other nodes which come after it
+in directed graph.
+-We can detect the negative cycle if even after nth iteration our dist array
+is still reduces.
+
+
+Algo-
+-Relax all the edges n-1 times sequentially by,
+      if(dist[u]+wt<dist[v]){
+         dist[v]=dist[u]+wt;
+      }
+
+ code-
+
+   public int[] main(int S,int V,ArrayList<ArrayList<Integer>> edges){
+      int[] dist=new int[V];
+
+      for(int i=0;i<V;i++){
+          dist[i]=(int)(1e8);
+      }
+
+      dist[S]=0;
+
+      //Do relaxations V-1 times to get the final dist array
+      for(int i=0;i<V;i++){
+         for(ArrayList<Integer> it:edges){
+             int u=it[0];
+             int v=it[1];
+             int wt=it[2];
+
+             if(dist[u]!= 1e8 && dist[u]+wt<dist[v]){
+                 dist[v]=dist[u]+wt;
+             }
+         }
+      }
+
+      //If a negative cycle is present then return array of -1
+      for(ArrayList<Integer> it:edges){
+             int u=it[0];
+             int v=it[1];
+             int wt=it[2];
+
+             //If still here the relaxation is possible then there is a -ve cycle so return -1 in a form of an array.
+             if(dist[u]!= 1e8 && dist[u]+wt<dist[v]){
+                 int[] temp=new int[1];
+                 temp[0]=-1;
+                 return temp;
+             }
+      }
+
+      return dist;
+
+   }     
+

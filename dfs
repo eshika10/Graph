@@ -1,0 +1,31 @@
+DFS-Used for finding if path exists/possible.
+O(V+E)
+
+public ArrayList<Integer> dfs(int n,List<List<Integer>> adj){
+
+        ArrayList<Integer> ans=new ArrayList<>();
+
+        boolean[] visited=new boolean[n];
+
+       
+        dfsHelper(0,adj,ans,visited);
+
+        return ans;
+
+}
+
+private void dfsHelper(int node,List<List<Integer>> adj,ArrayList<Integer> ans,boolean[] visited){
+
+    visited[node]=true;
+
+    ans.add(node);
+
+    for(Integer val:adj.get(node)){
+
+        if(visited[val]==false){
+            dfs(val,adj,ans,visited);
+        }
+
+    }
+
+}

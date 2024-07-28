@@ -1,0 +1,22 @@
+Spanning Tree-
+
+-A tree in which we have n number of nodes and n-1 number of edges and in which
+we can able to reach from any one node to any other node is MST.
+
+-That means all nodes are reachable from each other.
+
+-The minimum spanning tree is one which have least sum of the costs or weights
+of the edges.
+
+example-
+   2      3                       2      3
+0------1-----2  sum=16        0------1------2  sum=20
+|      |                             /      /
+|6     |5                         8 /    7 /  
+|      |                           /      /
+3      4                           3      4
+
+
+We can find mst using two algorithms these are-
+1.Prim 's Algorithm
+2.Kruskal Algorithm (Using Disjoint Set data structure)

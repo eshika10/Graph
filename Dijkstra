@@ -1,0 +1,72 @@
+Dijkstra Algo-
+
+-Time Complexity- O(E log(V)) (Using PQ)
+-This algo will not work for graph containing negative weights as this will lead to
+infinite loop.
+-Used for unidirected graph,similar to basic structure of shortest
+path single source algo but instead of normal queue we have used PriorityQueue (min heap) in 
+which the values of pair are arranged in increasing order of distances that
+means the minimum distance is present at the top.(Starting with source node with distance 0)
+-We have used PriorityQueue instead of Queue as this will help us to avoid
+choosing too many paths by taking the minimal path first and thus reduces
+the time complexity.
+
+class Pair{
+    
+    int vertex;
+    int wt;
+    
+    Pair(int vertex,int wt){
+        
+        this.vertex=vertex;
+        this.wt=wt;
+        
+    }
+}
+
+ 
+ 
+ PriorityQueue<Pair> p=new PriorityQueue<>((n1,n2)->n1.wt-n2.wt);
+        
+        p.add(new Pair(S,0));
+        
+        int[] dist=new int[V];
+        
+        for(int i=0;i<V;i++){
+            dist[i]=(int)(1e9);
+        }
+        
+        dist[S]=0;
+        
+        while(!p.isEmpty()){
+            
+            int node=p.peek().vertex;
+            int wt=p.peek().wt;
+            
+            p.poll();
+            
+            for(int i=0;i<adj.get(node).size();i++){
+                
+                int val=adj.get(node).get(i).get(0);
+                int valWt=adj.get(node).get(i).get(1);
+                
+                if(wt+valWt<dist[val]){
+                    
+                    dist[val]=wt+valWt;
+                    
+                    p.add(new Pair(val,dist[val]));
+                    
+                }
+                
+            }
+        }
+        
+        // for(int i=0;i<V;i++){
+        //     if(dist[i]==1e9){
+        //         dist[i]=-1;
+        //     }
+        // }
+        
+        return dist;
+        
+        

@@ -1,0 +1,58 @@
+BFS Implementation-(Kahn 's Algorithm)
+
+Time Complexity=O(V+E)
+
+Cycle Detection-If we are not able to produce a toposort of size n.
+
+1.Calculate the indegree of all the nodes.
+2.Insert the nodes having indegree 0 in the queue.
+3.Reduces the indegree of the neighbouring nodes of the inserted nodes.
+4.If the neighbouring  nodes also have indegree reduces to 0 insert them also.
+
+code-
+
+public int[] main(int n,List<List<Integer>> list){
+
+    //Calculating the indegree of all nodes
+    int[] indegree=new int[n];
+
+    for(int i=0;i<n;i++){
+        for(int it:list.get(i)){
+              indegree[it]++;
+        }
+    }
+
+    //Fill in the queue the nodes having indegree as 0 initially.
+    Queue<Integer> q=new LinkedList<>();
+
+    for(int i=0;i<indegree.length;i++){
+
+        if(indegree[i]==0){
+            q.offer(i);
+        }
+
+    }
+
+    //To store final answer
+    //Standard BFS
+    int[] topo=new int[n];
+    int i=0;
+
+    while(!q.isEmpty()){
+
+        int node=q.poll();
+        topo[i++]=node;
+
+        for(int it:list.get(node)){
+            indegree[it]--;
+            if(indegree[it]==0){
+                q.offer(it);
+            }
+        }
+
+    }
+
+    return topo;
+
+}
+
